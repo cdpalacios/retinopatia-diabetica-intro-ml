@@ -60,7 +60,7 @@ uploaded_file = st.file_uploader("Elige una imagen...", type=["jpg", "jpeg", "pn
 if uploaded_file is not None:
     # Definir el modelo
     target_size = (229, 229)
-    base_model = Xception(weights=False, include_top=False, input_shape=target_size + (3,))
+    base_model = Xception(include_top=False, input_shape=target_size + (3,))
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
     x = Dense(1024, activation='relu')(x)
