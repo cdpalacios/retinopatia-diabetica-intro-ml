@@ -90,8 +90,12 @@ if uploaded_file is not None:
         img_array = np.expand_dims(img_array, axis=0)
         img_array /= 255.0
 
-        # Realizar la predicción
-        prediction = model.predict(img_array)
+        # Redirigir la salida estándar y los mensajes de error a un objeto nulo
+        with open(os.devnull, 'w') as devnull:
+            with contextlib.redirect_stdout(devnull):
+                with contextlib.redirect_stderr(devnull):
+                    # Realizar la predicción
+                    prediction = model.predict(img_array)
 
         # Mostrar resultados
         if prediction[0][0] > 0.5:
