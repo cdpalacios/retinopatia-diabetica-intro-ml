@@ -4,6 +4,7 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
 import h5py
+import gdown
 from tensorflow.keras.applications import Xception
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
@@ -44,6 +45,11 @@ st.write("""
 
 # Subir una imagen de entrada
 uploaded_file = st.file_uploader("Elige una imagen...", type=["jpg", "jpeg", "png"], label_visibility="hidden")
+
+# Descargar el modelo desde Google Drive
+model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
+output = 'Xception_diabetic_retinopathy_colab_v2.h5'
+gdown.download(model_url, output, quiet=False)
 
 # Verificación de carga de archivo
 if uploaded_file is not None:
