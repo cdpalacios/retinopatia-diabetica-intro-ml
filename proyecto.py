@@ -4,13 +4,12 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
 import h5py
-import gdown
+import requests
 from tensorflow.keras.applications import Xception
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 from tensorflow.python.keras.saving.hdf5_format import load_weights_from_hdf5_group
-import sys
-import contextlib 
+import contextlib
 
 # Configuración de la página
 st.set_page_config(page_title='Predicción de Retinopatía Diabética', page_icon='🩺', layout='wide')
@@ -45,16 +44,20 @@ st.write("""
     Simplemente sube una imagen y el modelo hará una predicción.
 """)
 
-# Descargar el modelo desde Google Drive
-model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
-output = 'Xception_diabetic_retinopathy_colab_v2.h5'
+# Descargar el modelo desde Google Drive si no existe
+def download_model():
+    model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
+    output = 'Xception_diabetic_retinopathy_colab_v2.h5'
+    if not os.path.exists(output):
+        try:
+            response = requests.get(model_url)
+            with open(output, 'wb') as f:
+                f.write(response.content)
+            st.success("Modelo descargado correctamente.")
+        except Exception as e:
+            st.error(f"Error al descargar el modelo: {e}")
 
-# Intentar descargar el archivo con gdown
-try:
-    gdown.download(model_url, output, quiet=True)
-    st.success("Modelo descargado correctamente.")
-except Exception as e:
-    st.error(f"Error al descargar el modelo: {e}")
+download_model()
 
 # Verificación de carga de archivo
 uploaded_file = st.file_uploader("Elige una imagen...", type=["jpg", "jpeg", "png"], label_visibility="hidden")
