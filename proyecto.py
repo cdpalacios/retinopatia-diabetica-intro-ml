@@ -66,7 +66,7 @@ if uploaded_file is not None:
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
     predictions = Dense(1, activation='sigmoid')(x)
-    model = Model(weightinputs=base_model.input, outputs=predictions)
+    model = Model(inputs=base_model.input, outputs=predictions)
 
     # Ruta completa al modelo usando h5py
     modelo_path = 'Xception_diabetic_retinopathy_colab_v2.h5'
