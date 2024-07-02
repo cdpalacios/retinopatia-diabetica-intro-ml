@@ -46,7 +46,7 @@ st.write("""
 
 # Descargar el modelo desde Google Drive si no existe
 def download_model():
-    model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
+    model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'
     output = 'Xception_diabetic_retinopathy_colab_v2.h5'
     if not os.path.exists(output):
         try:
@@ -73,7 +73,7 @@ if uploaded_file is not None:
     predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=base_model.input, outputs=predictions)
 
-    # Ruta completa al modelo usando h5py
+    # Ruta completa al modelo usando h5
     modelo_path = 'Xception_diabetic_retinopathy_colab_v2.h5'
 
     # Cargar los pesos del modelo
