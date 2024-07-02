@@ -43,15 +43,20 @@ st.write("""
     Simplemente sube una imagen y el modelo hará una predicción.
 """)
 
-# Subir una imagen de entrada
-uploaded_file = st.file_uploader("Elige una imagen...", type=["jpg", "jpeg", "png"], label_visibility="hidden")
-
 # Descargar el modelo desde Google Drive
-model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
+model_url = 'https://drive.google.com/uc?id=YOUR_FILE_ID'  # Reemplaza YOUR_FILE_ID con el ID del archivo en Google Drive
 output = 'Xception_diabetic_retinopathy_colab_v2.h5'
-gdown.download(model_url, output, quiet=False)
+
+# Intentar descargar el archivo con gdown
+try:
+    gdown.download(model_url, output, quiet=True)
+    st.success("Modelo descargado correctamente.")
+except Exception as e:
+    st.error(f"Error al descargar el modelo: {e}")
 
 # Verificación de carga de archivo
+uploaded_file = st.file_uploader("Elige una imagen...", type=["jpg", "jpeg", "png"], label_visibility="hidden")
+
 if uploaded_file is not None:
     # Definir el modelo
     target_size = (229, 229)
