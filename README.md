@@ -1,1 +1,1 @@
-# retinopatia-diabetica-intro-ml
+# Detección de Retinopatía Diabética con Machine Learning
