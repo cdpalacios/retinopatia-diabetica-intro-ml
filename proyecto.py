@@ -46,7 +46,7 @@ st.write("""
 
 # Descargar el modelo desde Google Drive si no existe
 def download_model():
-    model_url = 'https://drive.google.com/uc?id=1pHQW0c7nauYcO1748kBNyX1nwcmFFx8l'
+    model_url = 'http://server01.labs.org.pe:2005/Xception_diabetic_retinopathy_colab_v2.h5'
     output = 'Xception_diabetic_retinopathy_colab_v2.h5'
     if not os.path.exists(output):
         try:
