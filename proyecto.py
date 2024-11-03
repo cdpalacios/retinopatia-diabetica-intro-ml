@@ -1,14 +1,11 @@
 import streamlit as st
-import tensorflow as tf
+import gdown
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
-import h5py
-import requests
 from tensorflow.keras.applications import Xception
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
-from tensorflow.python.keras.saving.hdf5_format import load_weights_from_hdf5_group
 import contextlib
 
 # Configuración de la página
@@ -50,12 +47,15 @@ def download_model():
     output = 'Xception_diabetic_retinopathy_colab_v2.h5'
     if not os.path.exists(output):
         try:
-            response = requests.get(model_url)
-            with open(output, 'wb') as f:
-                f.write(response.content)
+            gdown.download(model_url, output, quiet=False)
             st.success("Modelo descargado correctamente.")
         except Exception as e:
             st.error(f"Error al descargar el modelo: {e}")
+
+    if os.path.exists(output):
+        file_size = os.path.getsize(output)
+        st.write(f"Tamaño del archivo descargado: {file_size / (1024 * 1024):.2f} MB")
+
 
 download_model()
 
@@ -76,12 +76,10 @@ if uploaded_file is not None:
     # Ruta completa al modelo usando h5
     modelo_path = 'Xception_diabetic_retinopathy_colab_v2.h5'
 
-    # Cargar los pesos del modelo
     try:
-        with h5py.File(modelo_path, 'r') as f:
-            load_weights_from_hdf5_group(f['model_weights'], model.layers)
+        model.load_weights(modelo_path)
         st.success("Modelo cargado correctamente.")
-    except (UnicodeDecodeError, ValueError, OSError) as e:
+    except Exception as e:
         st.error(f"Error al cargar el modelo: {e}")
         model = None
 
